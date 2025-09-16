@@ -1,0 +1,45 @@
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+AddPersonTag("employee", $bgColor="#1B5DAA", $fontColor="white", $borderColor="#FF6347", $legendText="Менеджеры")
+AddContainerTag("client_service", $bgColor="#64A0E6", $fontColor="white", $legendText="Сервисы для клиентов")
+AddContainerTag("auth", $bgColor="#7B92BE", $fontColor="white", $legendText="Регистрация/Авторизация")
+AddContainerTag("state", $bgColor="#BBBAA6", $fontColor="white", $legendText="")
+AddContainerTag("external_system", $bgColor="#91A1B3", $fontColor="white", $legendText="")
+UpdateElementStyle("external_person", $bgColor=$COLOR_USER)
+
+Person(client, "Клиент")
+Person(user, "Собственник")
+Person(managers, "Менеджеры", $tags="employee")
+Person(accountant, "Бухгалтер", $tags="employee")
+
+System_Boundary(propDevelop, "PropDevelopment" ) {
+  System(auth, "Система авторизации", $tags='auth', "Аутентификация/Авторизация/Регистрация")
+  System(client_system, "Сервисы для продаж", $tags='client_service')
+  System(user_system, "Сервисы ЖКУ")
+  System(finance, "Финансы",'ведение финансового учёта')
+  System(data, "Дата",'группа сервисов, которые отвечают за обработку данных')
+ }
+
+System(state, "Государственные регистрационные органы", $tags='state')
+System(payment_system, "Платежная система", $tags="external_system")
+System(hcs_system, "Поставщик ресурсов ЖКХ", $tags="external_system")
+System(smart_house_system, "Умный дом", $tags="external_system")
+
+Rel(client,auth,"Аутентификация/Авторизация/Регистрация")
+Rel(user,auth,"Аутентификация/Авторизация/Регистрация")
+
+Rel(auth,client_system,"Доступ к функционалу для клиентов")
+Rel(auth,user_system,"Доступ к функционалу для собственников")
+
+Rel(state, propDevelop,"Отвечают за регистрационные действия с объектами недвижимости")
+Rel(managers, propDevelop,"взаимодействуют с системой работая с клиентами и объектами недвижимости")
+Rel(accountant, finance,"ведет бухгалтерский учет")
+
+Rel(user_system, hcs_system ,"взаимодействует с жкх")
+Rel(user_system, payment_system ,"проведение оплаты")
+Rel(user_system, smart_house_system ,"управление умным домом")
+
+Rel(client_system, data ,"синхронизация данных")
+Rel(user_system, data ,"синхронизация данных")
+
+@enduml
