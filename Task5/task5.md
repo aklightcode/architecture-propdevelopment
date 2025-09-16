@@ -16,9 +16,9 @@ kubectl run admin-front-end-app --image=nginx --labels role=admin-front-end --ex
 
 Тестируем:
 
-Должно работать ```kubectl exec -it front-end-app -- curl --connect-timeout 3 http://back-end-api-app```
+Должно работать ```kubectl exec -it front-end-app -- curl -s --connect-timeout 3 http://back-end-api-app```
 
-Не должно работать ```kubectl exec -it front-end-app -- curl --connect-timeout 3 http://admin-back-end-api-app```
+Не должно работать ```kubectl exec -it front-end-app -- curl -s --connect-timeout 3 http://admin-back-end-api-app```
 
 Должно работать ```kubectl exec admin-front-end-app -- curl -s --connect-timeout 3 http://admin-back-end-api-app```
 
